@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moon Libration Laser — a century of near misses</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>The Moon Libration Laser</h1>
+  <p class="tagline">
+    A laser bolted to a tripod at the center of the Moon's nearside, aimed at
+    Earth's average position. Lunar libration swings the beam across a canvas
+    110,000&nbsp;km wide — and Earth is a small target.
+    Computed from JPL DE440 ephemerides and the DE421 lunar orientation kernel.
+  </p>
+  <div id="stats" class="chips"></div>
+</header>
+
+<main>
+  <section id="viz">
+    <div id="canvas-wrap">
+      <canvas id="sky"></canvas>
+      <div id="hud">
+        <div id="hud-date">—</div>
+        <div id="hud-offset"></div>
+        <div id="hud-status"></div>
+      </div>
+    </div>
+
+    <div id="controls">
+      <button id="play" title="play / pause">▶</button>
+      <label>speed
+        <select id="speed">
+          <option value="1">1 min = 1 day</option>
+          <option value="7">1 min = 1 week</option>
+          <option value="30.44">1 min = 1 month</option>
+          <option value="365.25" selected>1 min = 1 year</option>
+          <option value="1826.25">1 min = 5 years</option>
+        </select>
+      </label>
+      <label>trail
+        <select id="trail">
+          <option value="730">1 month</option>
+          <option value="4383">6 months</option>
+          <option value="8766" selected>1 year</option>
+          <option value="43830">5 years</option>
+          <option value="0">everything</option>
+        </select>
+      </label>
+      <input id="scrub" type="range" min="0" max="876600" value="0" step="1">
+      <span id="scrub-label">1926</span>
+    </div>
+  </section>
+
+  <aside id="crossings">
+    <h2>Earth crossings <span id="crossing-count"></span></h2>
+    <p class="hint">The beam is on the Earth disk during these windows.
+      Click one to jump there.</p>
+    <div id="crossing-list"></div>
+  </aside>
+</main>
+
+<section id="about">
+  <h2>What you are looking at</h2>
+  <p>
+    The view is the <em>target plane</em>: a plane through Earth's center,
+    perpendicular to the laser, seen from the Moon. The blue disk is Earth to
+    scale. The red line is where the beam points, hour by hour, from real
+    ephemeris data (1926&ndash;2026).
+  </p>
+  <p>
+    The Moon keeps the same face toward Earth only <em>on average</em>.
+    Libration in longitude (orbital eccentricity, 27.55-day period) and in
+    latitude (the 6.68&deg; tilt of the lunar equator, 27.21-day period) make
+    Earth's apparent position wander by up to &plusmn;8&deg; — about
+    &plusmn;8.5 Earth radii at lunar distance. Because the two periods differ
+    slightly, the monthly loop precesses with a ~6-year beat, and the whole
+    figure cycles with the 18.6-year regression of the lunar nodes. Direct
+    hits come in seasons: a few months of roughly fortnightly crossings, then
+    years of nothing.
+  </p>
+
+  <h2>Rendered figures</h2>
+  <div class="gallery">
+    <figure><img src="assets/laser_day.png" alt="one day"><figcaption>One day: a short arc</figcaption></figure>
+    <figure><img src="assets/laser_month.png" alt="one month"><figcaption>One month: an open loop that misses Earth</figcaption></figure>
+    <figure><img src="assets/laser_year.png" alt="one year"><figcaption>One year: a precessing rosette</figcaption></figure>
+    <figure><img src="assets/laser_18.6_years.png" alt="18.6 years"><figcaption>18.6 years: the full nodal cycle</figcaption></figure>
+    <figure><img src="assets/libration_figure.png" alt="libration figure"><figcaption>The classic libration figure</figcaption></figure>
+    <figure><img src="assets/earth_crossings_1926_2026.png" alt="crossing timeline"><figcaption>A century of crossings</figcaption></figure>
+    <figure class="wide"><img src="assets/laser_month.gif" alt="month animation"><figcaption>One month, animated</figcaption></figure>
+  </div>
+
+  <p class="footer">
+    Source &amp; methodology:
+    <a href="https://github.com/themorgantown/moon_libation_simulator">themorgantown/moon_libation_simulator</a>
+    &middot; Skyfield + JPL DE440s + MOON_ME frame (moon_pa_de421) &middot;
+    validated against JPL Horizons to a few arcseconds.
+  </p>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>
