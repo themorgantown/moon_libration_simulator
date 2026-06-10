@@ -60,9 +60,25 @@ def ensure_kernels():
     os.makedirs(KERNEL_DIR, exist_ok=True)
     for name, url in KERNELS.items():
         path = os.path.join(KERNEL_DIR, name)
-        if not os.path.exists(path) or os.path.getsize(path) < 1024:
-            print(f"downloading {name} ...")
-            urllib.request.urlretrieve(url, path)
+        if os.path.exists(path):
+            continue
+        print(f"downloading {name} ...")
+        tmp = path + ".part"
+        try:
+            with urllib.request.urlopen(url, timeout=60) as resp, open(tmp, "wb") as out:
+                expected = resp.headers.get("Content-Length")
+                while True:
+                    block = resp.read(1 << 20)
+                    if not block:
+                        break
+                    out.write(block)
+            if expected is not None and os.path.getsize(tmp) != int(expected):
+                raise IOError(f"{name}: got {os.path.getsize(tmp)} bytes, "
+                              f"expected {expected}")
+            os.replace(tmp, path)
+        finally:
+            if os.path.exists(tmp):
+                os.remove(tmp)
 
 
 class LaserSim:
@@ -192,16 +208,34 @@ def animate_month(sim, start, fname, frames=180):
     print(f"wrote {fname}")
 
 
+def parse_start_date(text):
+    """YYYY-MM-DD, constrained so start + 18.61 years stays inside the
+    1900-2050 coverage of the moon_pa_de421 orientation kernel."""
+    from datetime import date
+
+    try:
+        y, m, d = (int(s) for s in text.split("-"))
+        date(y, m, d)
+    except (ValueError, TypeError):
+        raise argparse.ArgumentTypeError(
+            f"invalid date {text!r}, expected YYYY-MM-DD")
+    if not 1900 <= y <= 2031:
+        raise argparse.ArgumentTypeError(
+            f"start year {y} out of range: the lunar orientation kernel covers "
+            f"1900-2050 and the 18.6-year plot needs start <= 2031")
+    return (y, m, d)
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    p.add_argument("--start", default="2026-01-01",
-                   help="UTC start date, YYYY-MM-DD (default 2026-01-01)")
+    p.add_argument("--start", default="2026-01-01", type=parse_start_date,
+                   help="UTC start date, YYYY-MM-DD between 1900 and 2031 "
+                        "(default 2026-01-01)")
     p.add_argument("--outdir", default="output", help="output directory")
     p.add_argument("--gif", action="store_true", help="also render a one-month GIF")
     args = p.parse_args()
 
-    y, m, d = (int(s) for s in args.start.split("-"))
-    start = (y, m, d)
+    start = args.start
     os.makedirs(args.outdir, exist_ok=True)
     out = lambda name: os.path.join(args.outdir, name)
 

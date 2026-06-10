@@ -70,6 +70,46 @@ python3 laser_simulator.py --gif        # also renders the month animation
 python3 laser_simulator.py --start 2030-01-01
 ```
 
+## When does the laser actually hit Earth?
+
+`crossing_finder.py` scans the century 1926–2026 at 10-minute resolution
+and bisects every disk entry/exit to ~1-second precision:
+
+```bash
+python3 crossing_finder.py                    # 1926..2026
+python3 crossing_finder.py --start 1900 --end 2050
+```
+
+Results for 1926–2026 (full table with exact UTC entry/exit times in
+[`output/earth_crossings_1926_2026.csv`](output/earth_crossings_1926_2026.csv)):
+
+* **354 crossings**, beam on the Earth disk **0.689%** of the time
+  (6,036 hours in a century).
+* Each crossing lasts **8–25 hours** (the spot moves ~460 km/h through
+  a disk 12,742 km wide).
+* Crossings come in **seasons every ~3.0 years** — half the ~6-year beat
+  between the anomalistic (27.55 d) and draconic (27.21 d) months — each
+  season lasting 5–10 months with **8–13 crossings spaced ~13.7 days**
+  (half a draconic month, each time the latitude libration crosses zero).
+* Best shot of the century: **1955-09-23 08:55 UTC**, when the beam axis
+  passed within ~4 km of Earth's center.
+
+![crossing timeline](output/earth_crossings_1926_2026.png)
+
+## Interactive website
+
+`docs/` contains a static site (GitHub Pages-ready) that plays the laser's
+red line over the full century — press play to watch a year per minute,
+change speed and trail length, scrub the timeline, and click any of the
+354 crossings to jump there:
+
+```bash
+python3 export_web_data.py            # regenerate docs/data/ (needs the CSV)
+cd docs && python3 -m http.server     # then open http://localhost:8000
+```
+
+To publish, enable GitHub Pages for the `main` branch, `/docs` folder.
+
 ## Accurate Moon/Earth movement libraries (the survey)
 
 Libraries and data sources that carry real libration/orientation data,
