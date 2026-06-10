@@ -6,10 +6,11 @@ authors = ["Daniel <50146+themorgantown@users.noreply.github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11"
 matplotlib = "^3.8.3"
 astropy = "^6.0.1"
 jplephem = "^2.21"
+skyfield = "^1.49"
 
 
 [build-system]
