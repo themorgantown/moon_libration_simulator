@@ -108,6 +108,35 @@ cd docs && python3 -m http.server     # then open http://localhost:8000
 
 To publish, enable GitHub Pages for the `main` branch, `/docs` folder.
 
+## The hidden clockwork
+
+The site's "hidden clockwork" section explores why the pattern repeats:
+all the lunar months (draconic 27.212 d, sidereal 27.322 d, anomalistic
+27.555 d, synodic 29.531 d) are one orbit measured against different
+moving finish lines, and their beats generate every famous lunar cycle —
+the 6-year libration beat, the 411.8-day full moon cycle, and the
+18.03-year Saros (223 synodic = 242 draconic = 239 anomalistic, to
+within hours).
+
+It includes an interactive period-folding explorer (the trick used to
+find pulsars: fold the 100-year track by a trial period and watch
+structure snap into focus at the true ones) plus three figures computed
+from the exported track itself:
+
+```bash
+python3 make_cycle_figures.py    # writes docs/assets/{moire_comb,track_spectrum,phase_torus}.{png,gif}
+```
+
+* **`moire_comb.png`** — the draconic and anomalistic zero-crossing
+  combs drift through each other and re-phase every 3.0 years; a century
+  of real crossings lands inside the bands (mean cos ψ = +0.90).
+* **`track_spectrum.png`** — an FFT of the track resolves the monthly
+  family, including the Sun's perturbations (evection 31.81 d,
+  variation 14.77 d) exactly where theory puts them.
+* **`phase_torus.png` / `.gif`** — the track winds around the
+  (anomalistic × draconic) phase torus at slope 1.0126, closing every
+  ~6 years; all 354 crossings cluster where both librations vanish.
+
 ## Accurate Moon/Earth movement libraries (the survey)
 
 Libraries and data sources that carry real libration/orientation data,

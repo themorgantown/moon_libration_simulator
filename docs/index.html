@@ -130,6 +130,102 @@
     <img src="assets/months/2025-12.svg" alt="December 2025" title="December 2025" width="50" height="50">
   </div>
 
+  <h2>The hidden clockwork: four kinds of month</h2>
+  <p>
+    There is only one real period here — the Moon's orbit, 27.32 days
+    against the stars. Every other "month" is the same lap measured
+    against a <em>moving finish line</em>, and the whole pattern above is
+    the interference between them.
+  </p>
+  <table class="periods">
+    <tr><th>Month</th><th>Length</th><th>Finish line</th><th>…which moves once per</th></tr>
+    <tr><td>sidereal</td><td>27.322 d</td><td>the stars</td><td>— (fixed)</td></tr>
+    <tr><td>draconic</td><td>27.212 d</td><td>orbit's node</td><td>18.61 yr (backwards)</td></tr>
+    <tr><td>anomalistic</td><td>27.555 d</td><td>perigee</td><td>8.85 yr</td></tr>
+    <tr><td>synodic</td><td>29.531 d</td><td>the Sun's direction</td><td>1 yr</td></tr>
+  </table>
+  <p>
+    The beats between these nearly-equal periods generate every famous
+    lunar cycle. Draconic &times; anomalistic beat in <b>6.0 years</b> —
+    that's why the rosette precesses and why Earth crossings come in
+    seasons every ~3 years. Synodic &times; anomalistic beat in
+    <b>411.8 days</b> — the "full moon cycle" that schedules supermoons.
+    And the showstopper: 223 synodic = 6585.32 d, 242 draconic = 6585.36 d,
+    239 anomalistic = 6585.54 d. Three different months agree to within
+    hours over 18 years — the <b>Saros</b>, why eclipses repeat in series,
+    known to the Babylonians and geared into the Antikythera mechanism.
+    (The Saros, 18.03 yr, is <em>not</em> the 18.61-yr nodal cycle that
+    frames this page — they're neighbors by coincidence.)
+  </p>
+
+  <h2>Fold the century yourself</h2>
+  <p>
+    This is how astronomers find pulsars: chop a long signal into pieces
+    of a trial length and stack them. At an arbitrary period the stack is
+    mush — but if the period is <em>true</em>, every cycle lines up and
+    vertical structure snaps into focus. Below, the full 100-year laser
+    track (876,600 hourly samples), folded by a period you control.
+    Drag the slider slowly through 27.21 d with the north–south channel,
+    or try the miss-distance channel at the 6-year beat to see the
+    crossing seasons stack up.
+  </p>
+  <div id="fold-ui">
+    <div id="fold-presets"></div>
+    <div id="fold-controls">
+      <label>channel
+        <select id="fold-channel">
+          <option value="north" selected>north–south offset (locks at draconic)</option>
+          <option value="east">east–west offset (locks at anomalistic)</option>
+          <option value="dist">miss distance (hits glow yellow)</option>
+        </select>
+      </label>
+      <input id="fold-period" type="range" min="13.5" max="33" step="0.002" value="27">
+      <span id="fold-readout">27.000 days</span>
+    </div>
+    <canvas id="fold-canvas"></canvas>
+    <p class="fold-axes">phase within the folding period &rarr; &nbsp;&middot;&nbsp;
+      each row is one cycle, 1926 (top) to 2026 (bottom)</p>
+  </div>
+
+  <h2>Three more ways to see the clockwork</h2>
+  <div class="gallery">
+    <figure class="wide">
+      <img src="assets/moire_comb.png" alt="moire comb of draconic and anomalistic ticks">
+      <figcaption>
+        <b>The moiré that schedules the crossings.</b> The north–south
+        libration crosses zero every 13.61 days, the east–west every
+        13.78 days — two tick-combs 1.2% apart. They drift through each
+        other and re-phase every 3.0 years (gold bands), and a century of
+        real crossings lands exactly inside the bands: the mean phase
+        alignment at the 354 crossings is cos&nbsp;&psi; = +0.90.
+      </figcaption>
+    </figure>
+    <figure class="wide">
+      <img src="assets/track_spectrum.png" alt="spectrum of the laser track">
+      <figcaption>
+        <b>The Moon's spectrum, from this site's own data.</b> An FFT of
+        the century-long track resolves the monthly family: the draconic
+        line at 27.217 d rules the north–south channel, the anomalistic at
+        27.545 d rules east–west — and the Sun's fingerprints, evection
+        (31.81 d) and variation (14.77 d), show up exactly where theory
+        puts them. The miss-distance spectrum (bottom) shows the 3-year
+        season line the two months beat out together.
+      </figcaption>
+    </figure>
+    <figure class="wide">
+      <img src="assets/phase_torus.gif" alt="animated phase torus">
+      <figcaption>
+        <b>The phase torus.</b> Plot the east–west libration phase against
+        the north–south phase and the track becomes a nearly-diagonal line
+        winding around a torus (slope 27.55/27.21 = 1.0126), shifting
+        sideways 1.3% per lap and closing only after ~6 years. The beam
+        can hit Earth only in the small yellow patches where both
+        librations pass through zero together — watch the line thread them
+        during the 1955 crossing season, the century's best.
+      </figcaption>
+    </figure>
+  </div>
+
   <p class="footer">
     Source &amp; methodology:
     <a href="https://github.com/themorgantown/moon_libation_simulator">themorgantown/moon_libation_simulator</a>
@@ -139,5 +235,6 @@
 </section>
 
 <script src="app.js"></script>
+<script src="fold.js"></script>
 </body>
 </html>

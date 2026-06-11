@@ -153,6 +153,46 @@ select {
   background: #070a14; border: 1px solid #1c2447; border-radius: 5px;
 }
 
+table.periods {
+  border-collapse: collapse; margin: 16px 0; font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+table.periods th, table.periods td {
+  text-align: left; padding: 6px 18px 6px 0; border-bottom: 1px solid #1e2750;
+}
+table.periods th { color: #7c86ad; font-size: 12px; letter-spacing: 1px;
+  text-transform: uppercase; font-weight: 600; }
+table.periods td:first-child { color: var(--text); font-weight: 600; }
+
+#fold-ui {
+  background: var(--panel); border: 1px solid #232c52; border-radius: 14px;
+  padding: 16px; margin-top: 16px;
+}
+#fold-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+#fold-presets button {
+  background: var(--panel-2); border: 1px solid #2a3464; border-radius: 999px;
+  color: #9aa3c7; font-size: 12px; padding: 4px 12px; cursor: pointer;
+}
+#fold-presets button:hover { color: var(--text); border-color: #4a5b9e; }
+#fold-presets button.active {
+  color: var(--accent); border-color: var(--accent); background: #1a1a0e;
+}
+#fold-controls {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+#fold-controls label { font-size: 13px; color: #9aa3c7; display: flex; gap: 6px; align-items: center; }
+#fold-period { flex: 1; min-width: 160px; accent-color: var(--red); }
+#fold-readout {
+  font-size: 13px; color: var(--accent); min-width: 190px;
+  font-variant-numeric: tabular-nums;
+}
+#fold-canvas {
+  width: 100%; display: block; border-radius: 8px;
+  background: #070a14; border: 1px solid #1c2447;
+}
+.fold-axes { font-size: 12px; color: #7c86ad; margin: 8px 2px 0; }
+
 .footer { font-size: 13px; color: #7c86ad; margin-top: 36px; line-height: 1.7; }
 a { color: #7fb3ff; text-decoration: none; }
 a:hover { color: #a8ceff; text-decoration: underline; }
