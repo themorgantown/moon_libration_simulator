@@ -7,9 +7,7 @@ apparent wobble — means Earth doesn't stay put in the lunar sky. What
 does the laser draw over a day? A month? A year?
 
 > Note on naming: the wobble is *libration* (from Latin *libra*, balance).
-> A *libation* is a drink poured for the gods — also appropriate after
-> hauling a tripod to the Moon.
-
+ 
 ## The answer
 
 Earth subtends only **~1.9°** seen from the Moon, but libration swings
@@ -140,5 +138,5 @@ Why the librations exist, briefly:
 
 ## Legacy experiments
 
-`moon.py` … `moon8_mollweide_projection.py` are earlier astropy-based
-experiments kept for reference; `laser_simulator.py` supersedes them.
+`archive/moon.py` … `archive/moon8_mollweide_projection.py` are earlier
+astropy-based experiments kept for reference; `laser_simulator.py` supersedes them.
