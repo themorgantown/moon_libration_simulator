@@ -33,6 +33,16 @@
   if (!canvas) return;
   const ctx = canvas.getContext("2d");
 
+  // OffscreenCanvas isn't available on some mobile browsers; fall back to a
+  // detached <canvas> so the heatmap still renders everywhere.
+  function makeBitmapCanvas(w, h) {
+    if (typeof OffscreenCanvas !== "undefined") return new OffscreenCanvas(w, h);
+    const c = document.createElement("canvas");
+    c.width = w;
+    c.height = h;
+    return c;
+  }
+
   function channelValue(i) {
     const t = fold.track;
     if (fold.channel === "east") return t[2 * i];
@@ -92,7 +102,7 @@
       img.data[4 * k + 3] = 255;
     }
 
-    const off = new OffscreenCanvas(COLS, rows);
+    const off = makeBitmapCanvas(COLS, rows);
     off.getContext("2d").putImageData(img, 0, 0);
     ctx.imageSmoothingEnabled = true;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -118,7 +128,10 @@
   }
 
   function fitCanvas() {
-    const w = canvas.clientWidth * (window.devicePixelRatio || 1);
+    // cap the pixel ratio so high-DPR phones don't allocate a needlessly
+    // large backing store for the heatmap
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = canvas.clientWidth * dpr;
     canvas.width = Math.round(w);
     canvas.height = Math.round(w * 0.55);
     scheduleRender();
