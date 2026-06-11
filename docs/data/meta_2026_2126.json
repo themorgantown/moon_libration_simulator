@@ -1,0 +1,9 @@
+{
+  "epoch": "2026-01-01T00:00:00Z",
+  "end": "2126-01-01T00:00:00Z",
+  "step_hours": 1.0,
+  "count": 876577,
+  "crossing_count": 359,
+  "hit_percent": 0.693,
+  "max_offset_re": 10.961
+}

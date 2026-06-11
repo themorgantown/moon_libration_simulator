@@ -168,7 +168,9 @@ function setPlaying(on) {
 
 function buildCrossingList() {
   const list = $("crossing-list");
-  $("crossing-count").textContent = `(${state.crossings.length} in 100 years)`;
+  list.replaceChildren();
+  const years = Math.round(state.maxHour / 8766);
+  $("crossing-count").textContent = `(${state.crossings.length} in ${years} years)`;
   let year = 0;
   const frag = document.createDocumentFragment();
   state.crossings.forEach((c, i) => {
@@ -212,16 +214,62 @@ function fitCanvas() {
   canvas.width = canvas.height = Math.round(px);
 }
 
-async function init() {
-  await loadData();
+function renderStats() {
   const m = state.meta;
   $("stats").innerHTML =
-    `<span><b>${m.crossing_count}</b> Earth crossings, 1926–2026</span>` +
+    `<span><b>${m.crossing_count}</b> Earth crossings, 1926–${m.end.slice(0, 4)}</span>` +
     `<span>beam on Earth <b>${m.hit_percent}%</b> of the time</span>` +
     `<span>canvas swept: <b>±${(m.max_offset_re * 6371 / 1000).toFixed(0)},000 km</b></span>` +
     `<span><b>${(m.count / 1000).toFixed(0)}k</b> hourly ephemeris samples</span>`;
+}
+
+async function loadFuture() {
+  const btn = $("load-future");
+  btn.disabled = true;
+  btn.textContent = "loading 2026–2126…";
+  try {
+    const [binR, crossR, metaR] = await Promise.all([
+      fetch("data/track_2026_2126.bin"),
+      fetch("data/crossings_2026_2126.json"),
+      fetch("data/meta_2026_2126.json"),
+    ]);
+    const future = new Float32Array(await binR.arrayBuffer());
+    const crossings = await crossR.json();
+    const fm = await metaR.json();
+
+    // the future track's first sample duplicates the past track's last
+    // (both are 2026-01-01T00:00), so drop it when splicing
+    const merged = new Float32Array(state.track.length + future.length - 2);
+    merged.set(state.track);
+    merged.set(future.subarray(2), state.track.length);
+    state.track = merged;
+    state.maxHour = merged.length / 2 - 1;
+    $("scrub").max = state.maxHour;
+    state.crossings = state.crossings.concat(crossings);
+
+    const m = state.meta;
+    m.hit_percent = +((m.hit_percent * m.count + fm.hit_percent * fm.count)
+                      / (m.count + fm.count)).toFixed(3);
+    m.count += fm.count - 1;
+    m.crossing_count += fm.crossing_count;
+    m.max_offset_re = Math.max(m.max_offset_re, fm.max_offset_re);
+    m.end = fm.end;
+    renderStats();
+    buildCrossingList();
+    btn.remove();
+  } catch (err) {
+    console.error(err);
+    btn.disabled = false;
+    btn.textContent = "failed — try again";
+  }
+}
+
+async function init() {
+  await loadData();
+  renderStats();
   buildCrossingList();
 
+  $("load-future").addEventListener("click", loadFuture);
   $("play").addEventListener("click", () => setPlaying(!state.playing));
   $("speed").addEventListener("change", e => state.daysPerMinute = +e.target.value);
   $("trail").addEventListener("change", e => state.trailHours = +e.target.value);

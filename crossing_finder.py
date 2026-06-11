@@ -128,12 +128,14 @@ def main():
     p.add_argument("--end", type=int, default=2026, help="end year (UTC Jan 1)")
     p.add_argument("--outdir", default="output")
     args = p.parse_args()
-    if not (1900 <= args.start < args.end <= 2050):
-        p.error("years must satisfy 1900 <= start < end <= 2050 "
-                "(coverage of the moon_pa_de421 orientation kernel)")
+    if not (1850 <= args.start < args.end <= 2150):
+        p.error("years must satisfy 1850 <= start < end <= 2150 "
+                "(coverage of the de440s ephemeris)")
+    # de421 orientation for the validated 1900-2050 window, de440 beyond it
+    orientation = "de421" if 1900 <= args.start and args.end <= 2050 else "de440"
 
     os.makedirs(args.outdir, exist_ok=True)
-    finder = CrossingFinder()
+    finder = CrossingFinder(orientation)
     ts = finder.ts
     jd0, jd1 = ts.utc(args.start, 1, 1).tt, ts.utc(args.end, 1, 1).tt
     events = finder.find_crossings(jd0, jd1)

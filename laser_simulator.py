@@ -51,14 +51,25 @@ KERNELS = {
     "de440s.bsp": "https://ssd.jpl.nasa.gov/ftp/eph/planets/bsp/de440s.bsp",
     "moon_pa_de421_1900-2050.bpc": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/moon_pa_de421_1900-2050.bpc",
     "moon_080317.tf": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/fk/satellites/moon_080317.tf",
+    "moon_pa_de440_200625.bpc": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/moon_pa_de440_200625.bpc",
+    "moon_de440_250416.tf": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/fk/satellites/moon_de440_250416.tf",
+}
+
+# Lunar orientation sources.  de421 covers 1900-2050 and matches the runs
+# validated against Horizons; de440 covers 1550-2650 for dates beyond that.
+ORIENTATIONS = {
+    "de421": ("moon_080317.tf", "moon_pa_de421_1900-2050.bpc", "MOON_ME_DE421"),
+    "de440": ("moon_de440_250416.tf", "moon_pa_de440_200625.bpc",
+              "MOON_ME_DE440_ME421"),
 }
 
 EARTH_RADIUS_KM = 6371.0
 
 
-def ensure_kernels():
+def ensure_kernels(names):
     os.makedirs(KERNEL_DIR, exist_ok=True)
-    for name, url in KERNELS.items():
+    for name in names:
+        url = KERNELS[name]
         path = os.path.join(KERNEL_DIR, name)
         if os.path.exists(path):
             continue
@@ -82,16 +93,23 @@ def ensure_kernels():
 
 
 class LaserSim:
-    def __init__(self):
-        ensure_kernels()
+    def __init__(self, orientation="de421"):
+        frame_kernel, pa_kernel, frame_name = ORIENTATIONS[orientation]
+        ensure_kernels(["de440s.bsp", frame_kernel, pa_kernel])
         load = Loader(KERNEL_DIR)
         self.ts = load.timescale()
         eph = load("de440s.bsp")
         self.earth_minus_moon = eph["earth"] - eph["moon"]
         pc = PlanetaryConstants()
-        pc.read_text(load("moon_080317.tf"))
-        pc.read_binary(load("moon_pa_de421_1900-2050.bpc"))
-        self.moon_me = pc.build_frame_named("MOON_ME_DE421")
+        pc.read_text(load(frame_kernel))
+        pc.read_binary(load(pa_kernel))
+        # A .bpc may carry several segments per body but skyfield keeps only
+        # the last one read; select the segment that covers the de440s era
+        # (the de440 PA kernel's post-2426 segment would win otherwise).
+        for seg in pc._segment_list:
+            if seg.initial_jd <= 2451545.0 <= seg.final_jd:
+                pc._segment_map[seg.body] = seg
+        self.moon_me = pc.build_frame_named(frame_name)
 
     def sample(self, start_utc, days, n_points):
         """Return libration angles and the laser spot offset from Earth's center.

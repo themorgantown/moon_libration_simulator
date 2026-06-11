@@ -11,9 +11,10 @@
   <h1>The Moon Libration Laser</h1>
   <p class="tagline">
     A laser bolted to a tripod at the center of the Moon's nearside, aimed at
-    Earth's average position. Lunar libration swings the beam across a canvas
+    Earth's average position: What shape does it make in space? 
+    Lunar libration swings the beam across a canvas
     110,000&nbsp;km wide — and Earth is a small target.
-    Computed from JPL DE440 ephemerides and the DE421 lunar orientation kernel.
+    <br>This animation was computed from JPL DE440 ephemerides and the DE421 lunar orientation kernel. {sources: see below}
   </p>
   <div id="stats" class="chips"></div>
 </header>
@@ -59,6 +60,7 @@
     <p class="hint">The beam is on the Earth disk during these windows.
       Click one to jump there.</p>
     <div id="crossing-list"></div>
+    <button id="load-future">load next 100 years (2026–2126) ⟶</button>
   </aside>
 </main>
 
@@ -91,6 +93,41 @@
     <figure><img src="assets/libration_figure.png" alt="libration figure"><figcaption>The classic libration figure</figcaption></figure>
     <figure><img src="assets/earth_crossings_1926_2026.png" alt="crossing timeline"><figcaption>A century of crossings</figcaption></figure>
     <figure class="wide"><img src="assets/laser_month.gif" alt="month animation"><figcaption>One month, animated</figcaption></figure>
+  </div>
+
+  <h2>Two years of monthly loops, side by side</h2>
+  <p>
+    Each tile is one calendar month of the laser's drawing, January 2024
+    through December 2025. All 24 share the same scale — the full
+    &plusmn;11 Earth-radii canvas the beam ever sweeps, with Earth's disk
+    (blue) to scale at the center — so the loops' changing size, tilt and
+    drift are real. Hover a tile for its month.
+  </p>
+  <div class="month-tiles">
+    <img src="assets/months/2024-01.svg" alt="January 2024" title="January 2024" width="50" height="50">
+    <img src="assets/months/2024-02.svg" alt="February 2024" title="February 2024" width="50" height="50">
+    <img src="assets/months/2024-03.svg" alt="March 2024" title="March 2024" width="50" height="50">
+    <img src="assets/months/2024-04.svg" alt="April 2024" title="April 2024" width="50" height="50">
+    <img src="assets/months/2024-05.svg" alt="May 2024" title="May 2024" width="50" height="50">
+    <img src="assets/months/2024-06.svg" alt="June 2024" title="June 2024" width="50" height="50">
+    <img src="assets/months/2024-07.svg" alt="July 2024" title="July 2024" width="50" height="50">
+    <img src="assets/months/2024-08.svg" alt="August 2024" title="August 2024" width="50" height="50">
+    <img src="assets/months/2024-09.svg" alt="September 2024" title="September 2024" width="50" height="50">
+    <img src="assets/months/2024-10.svg" alt="October 2024" title="October 2024" width="50" height="50">
+    <img src="assets/months/2024-11.svg" alt="November 2024" title="November 2024" width="50" height="50">
+    <img src="assets/months/2024-12.svg" alt="December 2024" title="December 2024" width="50" height="50">
+    <img src="assets/months/2025-01.svg" alt="January 2025" title="January 2025" width="50" height="50">
+    <img src="assets/months/2025-02.svg" alt="February 2025" title="February 2025" width="50" height="50">
+    <img src="assets/months/2025-03.svg" alt="March 2025" title="March 2025" width="50" height="50">
+    <img src="assets/months/2025-04.svg" alt="April 2025" title="April 2025" width="50" height="50">
+    <img src="assets/months/2025-05.svg" alt="May 2025" title="May 2025" width="50" height="50">
+    <img src="assets/months/2025-06.svg" alt="June 2025" title="June 2025" width="50" height="50">
+    <img src="assets/months/2025-07.svg" alt="July 2025" title="July 2025" width="50" height="50">
+    <img src="assets/months/2025-08.svg" alt="August 2025" title="August 2025" width="50" height="50">
+    <img src="assets/months/2025-09.svg" alt="September 2025" title="September 2025" width="50" height="50">
+    <img src="assets/months/2025-10.svg" alt="October 2025" title="October 2025" width="50" height="50">
+    <img src="assets/months/2025-11.svg" alt="November 2025" title="November 2025" width="50" height="50">
+    <img src="assets/months/2025-12.svg" alt="December 2025" title="December 2025" width="50" height="50">
   </div>
 
   <p class="footer">

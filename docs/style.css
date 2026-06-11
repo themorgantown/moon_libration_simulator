@@ -79,6 +79,13 @@ select {
 #crossings .hint { font-size: 12px; color: #7c86ad; margin: 2px 0 10px; }
 #crossing-count { color: var(--accent); font-size: 14px; }
 #crossing-list { overflow-y: auto; flex: 1; }
+#load-future {
+  margin-top: 10px; padding: 8px; border-radius: 8px;
+  border: 1px dashed #2a3464; background: var(--panel-2);
+  color: #9aa3c7; cursor: pointer; font-size: 13px;
+}
+#load-future:hover { color: var(--text); border-color: #4a5b9e; }
+#load-future:disabled { cursor: wait; opacity: .6; }
 .year-head {
   font-size: 12px; font-weight: 700; color: #7c86ad; letter-spacing: 1px;
   margin: 10px 0 4px; border-bottom: 1px solid #1e2750; padding-bottom: 2px;
@@ -106,6 +113,12 @@ select {
 .gallery img { width: 100%; border-radius: 6px; display: block; }
 .gallery figcaption { font-size: 12px; color: #8a93b8; padding: 6px 2px 0; }
 .gallery .wide { grid-column: 1 / -1; max-width: 560px; }
+
+.month-tiles { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 10px; max-width: 820px; }
+.month-tiles img {
+  width: 50px; height: 50px; display: block;
+  background: #070a14; border: 1px solid #1c2447; border-radius: 4px;
+}
 
 .footer { font-size: 13px; color: #7c86ad; margin-top: 24px; }
 a { color: #7fb3ff; }
