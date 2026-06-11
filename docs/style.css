@@ -74,6 +74,7 @@ main {
 select {
   background: var(--panel-2); color: var(--text); border: 1px solid #2a3464;
   border-radius: 8px; padding: 5px 8px; font-size: 13px;
+  max-width: 100%;
 }
 #scrub { flex: 1; min-width: 140px; accent-color: var(--red); }
 #scrub-label { font-size: 13px; color: #9aa3c7; min-width: 42px; }
@@ -181,7 +182,8 @@ table.periods td:first-child { color: var(--text); font-weight: 600; }
   display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
   margin-bottom: 12px;
 }
-#fold-controls label { font-size: 13px; color: #9aa3c7; display: flex; gap: 6px; align-items: center; }
+#fold-controls label { font-size: 13px; color: #9aa3c7; display: flex; gap: 6px; align-items: center; min-width: 0; }
+#fold-channel { flex: 1; min-width: 0; }
 #fold-period { flex: 1; min-width: 160px; accent-color: var(--red); }
 #fold-readout {
   font-size: 13px; color: var(--accent); min-width: 190px;
@@ -202,4 +204,19 @@ a:hover { color: #a8ceff; text-decoration: underline; }
   h1 { font-size: 26px; }
   #about { padding: 0 16px; margin-top: 32px; }
   .month-tiles img { width: 54px; height: 54px; }
+
+  /* period-folding explorer: stack the controls so nothing is forced
+     wider than the phone's viewport */
+  #fold-controls { gap: 10px; }
+  #fold-controls label { width: 100%; }
+  #fold-period { flex: 1 1 100%; min-width: 0; }
+  #fold-readout { width: 100%; min-width: 0; }
+
+  /* the period table is wider than a narrow phone — let it scroll
+     on its own instead of forcing the whole page sideways */
+  table.periods { display: block; overflow-x: auto; max-width: 100%; }
 }
+
+/* never let a stray wide element create a horizontal scroll / zoomed-out
+   page on small screens */
+body { overflow-x: hidden; }
