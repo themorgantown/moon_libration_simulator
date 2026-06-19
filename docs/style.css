@@ -32,6 +32,28 @@ h1 { margin: 0 0 10px; font-size: 34px; letter-spacing: .3px; color: #eef1ff; }
 h2 { font-size: 20px; margin: 0 0 10px; color: #e0e5f7; letter-spacing: .2px; }
 .tagline { color: #9aa3c7; max-width: 760px; margin: 0 0 20px; }
 
+.preamble { max-width: 760px; margin: 0 0 22px; color: #c2cae8; }
+.preamble p { margin: 0; }
+
+.preamble-figure {
+  float: right;
+  width: min(400px, 45%);
+  margin: 4px 0 14px 22px;
+  background: var(--panel);
+  border: 1px solid #232c52;
+  border-radius: 14px;
+  padding: 10px;
+}
+.preamble-figure img { width: 100%; border-radius: 8px; display: block; }
+.preamble-figure figcaption {
+  font-size: 12px; color: #aeb8e0; padding: 8px 2px 0; line-height: 1.4;
+}
+
+/* On narrow screens, stop floating and let it stack full-width */
+@media (max-width: 640px) {
+  .preamble-figure { float: none; width: 100%; margin: 0 0 16px; }
+}
+
 .chips { display: flex; gap: 8px; flex-wrap: wrap; }
 .chips span {
   background: var(--panel); border: 1px solid #232c52; border-radius: 999px;
